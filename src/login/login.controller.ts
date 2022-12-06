@@ -19,10 +19,10 @@ export class LoginController {
     return this.loginService.create(createLoginDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.loginService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.loginService.findAll();
+  }
 
   @Post('/check')
   findOne(@Body() createLoginDto: CreateLoginDto) {

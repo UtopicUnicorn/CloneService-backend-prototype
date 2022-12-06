@@ -5,6 +5,7 @@ import { EntityRepository } from '@mikro-orm/core';
 import { CreateNomenclatureDto } from './dto/create-nomenclature.dto';
 import { UpdateNomenclatureDto } from './dto/update-nomenclature.dto';
 import { CapsEntity } from './entities/caps.entity';
+import { nomenclature } from '../../mockdata/data';
 
 @Injectable()
 export class NomenclatureService {
@@ -14,11 +15,28 @@ export class NomenclatureService {
   ) {}
 
   async create(createNomenclatureDto: CreateNomenclatureDto, user: string) {
-    createNomenclatureDto.user = user;
-    const newNomenclature = await this.nomenclatureEntity.create(
-      createNomenclatureDto,
-    );
-    return this.nomenclatureEntity.persistAndFlush(newNomenclature);
+    const id = nomenclature.length + 1;
+    const item = {
+      id: String(id),
+      brand: createNomenclatureDto.brand,
+      model: createNomenclatureDto.model,
+      width: createNomenclatureDto.width,
+      profile: createNomenclatureDto.profile,
+      diameter: createNomenclatureDto.diameter,
+      index: createNomenclatureDto.index,
+      year: createNomenclatureDto.year,
+      description: createNomenclatureDto.description,
+      type: createNomenclatureDto.type,
+      season: createNomenclatureDto.season,
+      status: createNomenclatureDto.status,
+      user: user,
+    };
+    return nomenclature.push(item);
+    // createNomenclatureDto.user = user;
+    // const newNomenclature = await this.nomenclatureEntity.create(
+    //   createNomenclatureDto,
+    // );
+    // return this.nomenclatureEntity.persistAndFlush(newNomenclature);
   }
 
   // async create(createNomenclatureDto: any, type: string) {
@@ -45,18 +63,20 @@ export class NomenclatureService {
   // }
 
   findAll(user: string) {
-    return this.nomenclatureEntity.find({ user: user });
+    return nomenclature.filter((item) => item.user === user);
+    // return this.nomenclatureEntity.find({ user: user });
   }
   findOne(id: string) {
-    return this.nomenclatureEntity.findOne(id);
+    return nomenclature.find((item) => item.id == id);
+    // return this.nomenclatureEntity.findOne(id);
   }
 
   update(id: string, updateNomenclatureDto: UpdateNomenclatureDto) {
-    return `This action updates a #${id} purchase`;
+    return `This action updates a #${id} nomenclature`;
   }
 
   async remove(id: string) {
-    const nomenclature = await this.nomenclatureEntity.findOne(id);
-    return this.nomenclatureEntity.remove(nomenclature).flush();
+    // const nomenclature = await this.nomenclatureEntity.findOne(id);
+    return `This action removes a #${id} nomenclature`;
   }
 }

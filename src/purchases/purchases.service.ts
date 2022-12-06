@@ -19,17 +19,17 @@ export class PurchasesService {
   }
 
   async findAll(user: string) {
-    return await this.purchaseEntity.find(
-      { user: user },
-      {
-        populate: [
-          'partner.name',
-          'partner.surname',
-          'partner.parentname',
-          'item',
-        ],
-      },
-    );
+    // return await this.purchaseEntity.find(
+    //   { user: user },
+    //   {
+    //     populate: [
+    //       'partner.name',
+    //       'partner.surname',
+    //       'partner.parentname',
+    //       'item',
+    //     ],
+    //   },
+    // );
   }
 
   findOne(id: string) {

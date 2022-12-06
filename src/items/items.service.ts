@@ -3,6 +3,7 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { ItemEntity } from './entity/item.entity';
 import { EntityRepository } from '@mikro-orm/core';
 import { CreateItemDto } from './dto/create-item.dto';
+import { items } from '../../mockdata/data';
 
 @Injectable()
 export class ItemsService {
@@ -12,23 +13,37 @@ export class ItemsService {
   ) {}
 
   async create(createItemDto: CreateItemDto, image: string, user: string) {
-    console.log('im here');
-    console.log(image);
-    createItemDto.image = image;
-    createItemDto.user = user;
-    const newItem = await this.itemEntity.create(createItemDto);
-    return this.itemEntity.persistAndFlush(newItem);
+    const id = items.length + 1;
+
+    const newItem = {
+      id: String(id),
+      amount: createItemDto.amount,
+      price: createItemDto.price,
+      store: createItemDto.store,
+      image: image,
+      user: user,
+    };
+
+    return items.push(newItem);
+    // console.log('im here');
+    // console.log(image);
+    // createItemDto.image = image;
+    // createItemDto.user = user;
+    // const newItem = await this.itemEntity.create(createItemDto);
+    // return this.itemEntity.persistAndFlush(newItem);
   }
 
   findAll(user: string) {
-    return this.itemEntity.find(
-      { user: user },
-      { populate: ['item.item.brand'] },
-    );
+    return items.filter((item) => item.user === user);
+    // return this.itemEntity.find(
+    //   { user: user },
+    //   { populate: ['item.item.brand'] },
+    // );
   }
 
   findOne(id: string) {
-    return this.itemEntity.findOne(id);
+    return items.find((item) => item.id === id);
+    // return this.itemEntity.findOne(id);
   }
 
   async remove(id: string) {
